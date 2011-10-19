@@ -3,6 +3,8 @@ import re
 BASE_URL = 'http://www.theonion.com'
 SEARCH_URL = 'http://www.theonion.com/ajax/onn_search/%s/1/'
 
+ObjectContainer.art = R('art-default.jpg')
+
 ####################################################################################################
 
 def Search(query):

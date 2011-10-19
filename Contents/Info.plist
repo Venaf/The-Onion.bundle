@@ -39,7 +39,7 @@
 	<key>PlexSearchServices</key>
 	<dict>
 		<key>The-Onion</key>
-		<string>com.plexapp.search.theonion</string>
+		<string>com.plexapp.plugins.theonion</string>
 	</dict>
 </dict>
 </plist>
