@@ -70,15 +70,18 @@ def PopulateFromHTML(show_id, show_title = '', replace_parent = False,  page = 1
   page = HTML.ElementFromURL(TO_AJAX % (show_id, page))
 
   for element in page.xpath("//li"):
-    url = TO_BASE_URL + element.xpath('.//a')[0].get('href')
+    url = element.xpath('.//a')[0].get('href')
+
     if url.startswith('/video/') == False:
       continue
+    else:
+      url = TO_BASE_URL + url
 
     title = element.xpath('.//p[@class="title"]//text()')[0]
     summary = element.xpath('.//p[@class="teaser"]')[0].text
     thumb = element.xpath('.//img')[0].get('src')
 
-    info = element.xpath('//li//p[@class="info"]/text()')[0].strip()
+    info = element.xpath('.//p[@class="info"]/text()')[0].strip()
     info_dict = re.match("\((?P<mins>[0-9]+):(?P<secs>[0-9]+)\)", info).groupdict()
     mins = int(info_dict['mins'])
     secs = int(info_dict['secs'])
