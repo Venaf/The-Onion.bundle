@@ -53,8 +53,8 @@ def Shows():
   shows = page.xpath('//ul[@id="categories"]//li')
 
   for show in shows:
-    if show.get("class") != "label":
-      title = show.xpath("a")[0].text_content()
+    if show.get("rel") not in ["", "featured", "mostrecent"]:
+      title = ' '.join(show.xpath("./a//text()"))
       id = show.get("rel")
       oc.add(DirectoryObject(key = Callback(PopulateFromHTML, show_id = id, show_title = title), title = title))
 
