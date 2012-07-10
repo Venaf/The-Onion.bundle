@@ -1,5 +1,3 @@
-import re
-
 TO_PLUGIN_PREFIX   = "/video/theonion"
 TO_BASE_URL        = "http://www.theonion.com"
 
@@ -13,6 +11,8 @@ NAME = "The Onion"
 ART = "art-default.jpg"
 ICON = "icon-default.jpg"
 SEARCH = "icon-search.png"
+
+RE_DURATION = Regex("\((?P<mins>[0-9]+):(?P<secs>[0-9]+)\)")
 
 ####################################################################################################
 def Start():
@@ -82,7 +82,7 @@ def PopulateFromHTML(show_id, show_title = '', replace_parent = False,  page = 1
     thumb = element.xpath('.//img')[0].get('src')
 
     info = element.xpath('.//p[@class="info"]/text()')[0].strip()
-    info_dict = re.match("\((?P<mins>[0-9]+):(?P<secs>[0-9]+)\)", info).groupdict()
+    info_dict = RE_DURATION.match(info).groupdict()
     mins = int(info_dict['mins'])
     secs = int(info_dict['secs'])
     duration = ((mins * 60) + secs) * 1000
@@ -106,7 +106,7 @@ def PopulateFromHTML(show_id, show_title = '', replace_parent = False,  page = 1
 ####################################################################################################
 def GetThumb(url):
   try:
-    full_url = url[:url.find('_jpg_')] + '.jpg'
+    url = url.replace('/4x3/125.jpg', '/16x9/512.jpg')
     data = HTTP.Request(full_url, cacheTime = CACHE_1WEEK).content
     return DataObject(data, 'image/jpeg')
   except:

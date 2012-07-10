@@ -1,7 +1,6 @@
-import re
-
 BASE_URL = 'http://www.theonion.com'
 SEARCH_URL = 'http://www.theonion.com/ajax/onn_search/%s/1/'
+RE_DURATION = Regex("\((?P<mins>[0-9]+):(?P<secs>[0-9]+)\)")
 
 ObjectContainer.art = R('art-default.jpg')
 
@@ -31,7 +30,7 @@ def Search(query):
       # The duration should be in the form "(MINS:SECS)". We can therefore extract the minutes and
       # seconds separately using a regular expression.
       duration_text = item.xpath(".//p[@class='info']/text()")[0].strip()
-      duration_details = re.match("\((?P<mins>[0-9]+):(?P<secs>[0-9]+)\)", duration_text).groupdict()
+      duration_details = RE_DURATION.match(duration_text).groupdict()
       mins = int(duration_details['mins'])
       secs = int(duration_details['secs'])
       duration = (mins * 60000) + (secs * 1000)
